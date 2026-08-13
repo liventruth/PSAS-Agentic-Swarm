@@ -17,7 +17,7 @@ This repository includes a parametric verification script validating acoustic fa
 
 * **Zenodo DOI:** [10.5281/zenodo.21799396](https://zenodo.org/records/21799396)
 
-* **Hugging Face Dataset:** (https://huggingface.co/datasets/liventruth/PSAS-Acoustic-Verification)
+* **Hugging Face Dataset:** https://huggingface.co/datasets/liventruth/PSAS-Acoustic-Verification
 
 ## Usage
 
