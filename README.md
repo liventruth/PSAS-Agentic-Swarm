@@ -11,6 +11,16 @@ Designed to solve high-reliability engineering and material science problems by 
 * **Agent Gamma (Adversarial Filter):** Identifies logical fallacies, physical impossibilities, and structural constraint violations.
 * **Overarching Awareness Engine (Interference Engine):** Evaluates all three frequencies to calculate the *Consensus Delta*, applies destructive interference to delete flawed logic branches, and outputs the final verified truth state.
 
+### ⚠️ Enterprise Core Binary Notice
+
+While the overarching orchestration framework and interfaces are open-source (AGPLv3), the full production closed-loop pipeline requires the compiled **Aegis-KV Oracle Core Binary** (`aegis_kv_oracle_core.pt`) for high-performance tensor compression.
+
+* **Open-Source Evaluation:** The quickstart script defines the exact structural pipeline and data flow, but local execution relies on a licensed core binary. 
+* **Commercial Deployments:** Commercial enterprise license holders receive the fully optimized `aegis_kv_oracle_core.pt` data package, full integration support, and zero-copy VRAM routing capabilities.
+
+**For enterprise evaluation builds and licensing inquiries, contact:** [inquiries@lawrencearchitectures.com](mailto:inquiries@lawrencearchitectures.com)
+
+
 ## ⚠️ Enterprise & Commercial Licensing Notice
 
 PSAS is dual-licensed:
