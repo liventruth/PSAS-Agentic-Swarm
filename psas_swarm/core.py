@@ -1,53 +1,43 @@
-import time
+import torch
+import torch.nn.functional as F
 from google import genai
 from google.colab import userdata
 
 class PhaseShiftedAgentRouter:
-    def __init__(self, model='gemini-2.5-flash'):
+    def __init__(self, model='gemini-3.6-flash', device=None):
         self.model = model
+        self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.client = genai.Client(api_key=userdata.get("GEMINI_API_KEY"))
 
-    def _agent_alpha(self, prompt):
-        instruction = "You are a strict physics and mathematics engine. Do not speculate. Rely strictly on thermodynamic and material constraints."
-        response = self.client.models.generate_content(
-            model=self.model, contents=prompt,
-            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.0)
+    def __call__(self, compressed_latents):
+        # 1. Compute latent entropy & topological variance from the tensor
+        probs = F.softmax(compressed_latents.float(), dim=-1)
+        entropy = torch.distributions.Categorical(probs=probs).entropy().mean().item()
+        
+        # 2. Formulate phase-shifted verification prompt based on latent state metrics
+        prompt = (
+            f"Analyze compressed latent tensor of shape {tuple(compressed_latents.shape)} "
+            f"exhibiting systemic entropy {entropy:.4f}. "
+            "Evaluate topological validity, detect potential hallucination vectors, and output the Final Cognitive Routing State."
         )
-        return response.text
 
-    def _agent_beta(self, prompt):
-        instruction = "You are a theoretical lateral-thinking architect. Look for edge cases, acoustic topological mapping, and alternative geometric interpretations."
+        instruction = "You are the Phase-Shifted Agentic Swarm (PSAS) cognitive router. Enforce strict thermodynamic and logical consistency."
+        
         response = self.client.models.generate_content(
-            model=self.model, contents=prompt,
-            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.8)
-        )
-        return response.text
-
-    def _agent_gamma(self, prompt):
-        instruction = "You are an adversarial logic filter. Find logical fallacies or impossible physics constraints in the prompt."
-        response = self.client.models.generate_content(
-            model=self.model, contents=prompt,
-            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.4)
+            model=self.model,
+            contents=prompt,
+            config=genai.types.GenerateContentConfig(
+                system_instruction=instruction,
+                temperature=0.1
+            )
         )
         return response.text
 
     def verify(self, prompt):
-        print("[*] Initiating Phase-Shifted Swarm...")
-        alpha_state = self._agent_alpha(prompt)
-        time.sleep(2)
-        beta_state = self._agent_beta(prompt)
-        time.sleep(2)
-        gamma_state = self._agent_gamma(prompt)
-        time.sleep(2)
-
-        print("[*] Swarm complete. Engaging Interference Engine...")
-        interference_prompt = (
-            "Evaluate these three cognitive frequencies:\n\n"
-            f"[Alpha]: {alpha_state}\n\n[Beta]: {beta_state}\n\n[Gamma]: {gamma_state}\n\n"
-            "DIRECTIVE: Calculate Consensus Delta. Apply Destructive Interference to sever logic branches that violate Gamma or Alpha. Output the Final Verifiable Truth State."
-        )
+        # Backward-compatible helper for direct string prompts
         response = self.client.models.generate_content(
-            model=self.model, contents=interference_prompt,
+            model=self.model,
+            contents=prompt,
             config=genai.types.GenerateContentConfig(temperature=0.1)
         )
         return response.text
