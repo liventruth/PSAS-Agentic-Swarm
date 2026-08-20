@@ -1,105 +1,60 @@
-import os
 import time
-import json
-import math
-from google.colab import userdata
 from google import genai
+from google.colab import userdata
 
-# Fetch the key from Colab Secrets
-client = genai.Client(api_key=userdata.get("GEMINI_API_KEY"))
+class PhaseShiftedAgentRouter:
+    def __init__(self, model='gemini-3.6-flash'):
+        self.model = model
+        # Automatically grab the key from Colab secrets
+        self.client = genai.Client(api_key=userdata.get("GEMINI_API_KEY"))
 
-# ---------------------------------------------------------
-# 1. THE COMBUSTION ZONE (The Target Problem)
-# ---------------------------------------------------------
-target_prompt = (
-    "Derive the structural requirements for a fused quartz one-piece acoustic resonator "
-    "handling 16th-order harmonic frequencies. Identify the exact failure point where "
-    "acoustic resonance causes structural shattering rather than constructive amplification."
-)
-
-# ---------------------------------------------------------
-# 2. PHASE-SHIFTED SWARM DEPLOYMENT (The Agents)
-# ---------------------------------------------------------
-
-def agent_alpha_anchor(prompt):
-    system_instruction = (
-        "You are a strict physics and mathematics engine. "
-        "You do not speculate. You rely strictly on known thermodynamic and acoustic "
-        "material science constraints. Provide your derivation step-by-step."
-    )
-
-    response = client.models.generate_content(
-        model='gemini-3.6-flash',
-        contents=prompt,
-        config=genai.types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.0,
+    def _agent_alpha(self, prompt):
+        instruction = "You are a strict physics and mathematics engine. You do not speculate. Rely strictly on known thermodynamic and material constraints."
+        response = self.client.models.generate_content(
+            model=self.model, contents=prompt,
+            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.0)
         )
-    )
-    return response.text
+        return response.text
 
-def agent_beta_probe(prompt):
-    system_instruction = (
-        "You are a theoretical lateral-thinking architect. "
-        "Look for edge cases, unusual acoustic topological mapping, and alternative "
-        "geometric interpretations of the problem."
-    )
-
-    response = client.models.generate_content(
-        model='gemini-3.6-flash',
-        contents=prompt,
-        config=genai.types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.8,
+    def _agent_beta(self, prompt):
+        instruction = "You are a theoretical lateral-thinking architect. Look for edge cases, unusual acoustic topological mapping, and alternative geometric interpretations."
+        response = self.client.models.generate_content(
+            model=self.model, contents=prompt,
+            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.8)
         )
-    )
-    return response.text
+        return response.text
 
-def agent_gamma_adversarial(prompt):
-    system_instruction = (
-        "You are an adversarial logic filter. Your only job "
-        "is to find logical fallacies or impossible physics constraints in the requested "
-        "prompt. State what cannot be done and why."
-    )
-
-    response = client.models.generate_content(
-        model='gemini-3.6-flash',
-        contents=prompt,
-        config=genai.types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.4,
+    def _agent_gamma(self, prompt):
+        instruction = "You are an adversarial logic filter. Find logical fallacies or impossible physics constraints in the prompt. State what cannot be done and why."
+        response = self.client.models.generate_content(
+            model=self.model, contents=prompt,
+            config=genai.types.GenerateContentConfig(system_instruction=instruction, temperature=0.4)
         )
-    )
-    return response.text
+        return response.text
 
-# ---------------------------------------------------------
-# 3. THE OVERARCHING AWARENESS (The Interference Engine)
-# ---------------------------------------------------------
-
-def overarching_awareness_engine(alpha_out, beta_out, gamma_out):
-    interference_prompt = (
-        "You are the Overarching Awareness Engine. You are evaluating three distinct "
-        "cognitive frequencies analyzing the same structural problem.\n\n"
-        f"[Agent Alpha - Strict Physics]: {alpha_out}\n\n"
-        f"[Agent Beta - Lateral Topology]: {beta_out}\n\n"
-        f"[Agent Gamma - Adversarial Filter]: {gamma_out}\n\n"
-        "YOUR DIRECTIVE:\n"
-        "1. Calculate the Consensus Delta: Identify the precise data points where "
-        "Alpha's strict physics intersect flawlessly with Beta's topology.\n"
-        "2. Apply Destructive Interference: Identify any variable or logic branch proposed "
-        "by Beta that violates Gamma's adversarial filter or Alpha's physics. "
-        "Sever and delete those branches entirely.\n"
-        "3. Output the Final Verifiable Truth State: Present the remaining, contradiction-free "
-        "architectural requirements. Do not include conversational filler."
-    )
-
-    response = client.models.generate_content(
-        model='gemini-3.6-flash',
-        contents=interference_prompt,
-        config=genai.types.GenerateContentConfig(
-            temperature=0.1,
+    def verify(self, prompt):
+        print("[*] Initiating Phase-Shifted Swarm...")
+        alpha_state = self._agent_alpha(prompt)
+        time.sleep(5)
+        
+        beta_state = self._agent_beta(prompt)
+        time.sleep(5)
+        
+        gamma_state = self._agent_gamma(prompt)
+        time.sleep(5)
+        
+        print("[*] Swarm complete. Engaging Interference Engine...")
+        interference_prompt = (
+            "You are the Overarching Awareness Engine. Evaluate these three cognitive frequencies:\n\n"
+            f"[Alpha]: {alpha_state}\n\n[Beta]: {beta_state}\n\n[Gamma]: {gamma_state}\n\n"
+            "DIRECTIVE: Calculate Consensus Delta. Apply Destructive Interference to sever logic branches that violate Gamma or Alpha. Output the Final Verifiable Truth State without conversational filler."
         )
-    )
+        
+        response = self.client.models.generate_content(
+            model=self.model, contents=interference_prompt,
+            config=genai.types.GenerateContentConfig(temperature=0.1)
+        )
+        return response.text
     return response.text
 
 
