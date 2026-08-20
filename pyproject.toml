@@ -4,12 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "psas-swarm"
-<<<<<<< HEAD
-version = "1.0.6"
-=======
-version = "1.0.6"
->>>>>>> 6d3109cf69603a782dd679aaf923b47a58355b2a
-description = "Phase-Shifted Agentic Swarm (PSAS) methodology for multi-agent cognitive synchronization and hallucination elimination."
+version = "1.0.7"
+description = "Phase-Shifted Agentic Swarm (PSAS) methodology for multi-agent cognitive synchronization"
 readme = "README.md"
 authors = [
     { name = "Charles Clark Lawrence", email = "inquiries@lawrencearchitectures.com" }
