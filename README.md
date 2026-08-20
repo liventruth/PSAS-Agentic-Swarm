@@ -30,7 +30,8 @@ This repository includes a parametric verification script validating acoustic fa
 
 ## Usage
 
-Set your Gemini API key in your environment or Colab secrets (`GEMINI_API_KEY`) and run the script:
+from psas_swarm import PhaseShiftedAgentRouter
 
-```bash
-python psas.py
+router = PhaseShiftedAgentRouter()
+verified_truth = router.verify("Your complex engineering prompt here")
+print(verified_truth)
