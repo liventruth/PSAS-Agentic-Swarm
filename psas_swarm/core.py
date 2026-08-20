@@ -55,7 +55,6 @@ class PhaseShiftedAgentRouter:
             config=genai.types.GenerateContentConfig(temperature=0.1)
         )
         return response.text
-        return response.text
 
 
 # ---------------------------------------------------------
