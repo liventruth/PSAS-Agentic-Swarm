@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "psas-swarm"
+version = "1.0.0"
+description = "Phase-Shifted Agentic Swarm (PSAS) methodology for multi-agent cognitive synchronization and hallucination elimination."
+readme = "README.md"
+authors = [
+    { name = "Charles Clark Lawrence", email = "inquiries@lawrencearchitectures.com" }
+]
+license = { text = "AGPL-3.0-only" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Affero General Public License v3 (AGPLv3)",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0.0",
+    "transformers",
+]
+
+[project.urls]
+Homepage = "https://github.com/liventruth/PSAS-Agentic-Swarm"
